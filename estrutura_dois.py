@@ -34,13 +34,13 @@ class EstruturaDois:
         else:
             linha.valor.raiz = linha.valor.insere_no(linha.valor.raiz, j, valor)
 
-        coluna_node = self.colunas.busca_no(self.colunas.raiz, j)
-        if (not coluna_node):
+        coluna = self.colunas.busca_no(self.colunas.raiz, j)
+        if (not coluna):
             nova_coluna = ArvoreAVL()
             nova_coluna.raiz = nova_coluna.insere_no(nova_coluna.raiz, i, valor)
             self.colunas.raiz = self.colunas.insere_no(self.colunas.raiz, j, nova_coluna)
         else:
-            coluna_node.valor.raiz = coluna_node.valor.insere_no(coluna_node.valor.raiz, i, valor)
+            coluna.valor.raiz = coluna.valor.insere_no(coluna.valor.raiz, i, valor)
 
         return True
 
