@@ -5,6 +5,7 @@ import tracemalloc
 from estrutura_dois import EstruturaDois
 from estrutura_um import Estrutura_um
 from matriz_tradicional import MatrizTradicional
+import gc
 
 class ComparadorEstruturas:
 
@@ -92,6 +93,10 @@ class ComparadorEstruturas:
                 resultados[nome][nome_estrutura] = (tempo, memoria)
 
         ComparadorEstruturas.salva_csv("resultados_completos.csv", resultados, dimensao, esparsidade)
+
+        del matriz_um, matriz_dois, matriz_tradicional 
+        del resultados 
+        gc.collect()
 
 def main():
     dimensoes = [10**i for i in range(2, 7)]
