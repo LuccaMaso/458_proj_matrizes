@@ -28,7 +28,12 @@ class ComparadorEstruturas:
             writer = csv.writer(arquivo)
 
             if arquivo.tell() == 0:
-                writer.writerow(["Dimensão", "Esparsidade", "Operação"] + [f"{estrutura} Tempo (s)" for estrutura in estruturas] + [f"{estrutura} Memória (bytes)" for estrutura in estruturas])
+                writer.writerow([
+                    "Dimensão", "Esparsidade", "Operação",
+                    "EstruturaUm Tempo (s)", "EstruturaUm Memória (bytes)",
+                    "EstruturaDois Tempo (s)", "EstruturaDois Memória (bytes)",
+                    "MatrizTradicional Tempo (s)", "MatrizTradicional Memória (bytes)"
+                ])
 
             for operacao in operacoes:
                 linha = [dimensao, esparsidade, operacao]
