@@ -99,12 +99,12 @@ def main():
     for i, dimensao in enumerate(dimensoes, start=2):
         if (i >= 4):
             esparsidades = [
+                1 / 10**(i + 4),
+                1 / 10**(i + 3),
                 1 / 10**(i + 2),
-                1 / 10**(i + 1),
-                1 / 10**i,
             ]
         else:
-            esparsidades = [0.01, 0.05, 0.1]
+            esparsidades = [0.01, 0.05, 0.1, 0.2]
 
         for esparsidade in esparsidades:
             ComparadorEstruturas.comparar_operacoes(dimensao, esparsidade)
