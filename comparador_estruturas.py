@@ -66,49 +66,67 @@ class ComparadorEstruturas:
     def comparar_operacoes(dimensao: int, esparsidade: float):
         print(f"\nComparando estruturas para dimensão {dimensao}x{dimensao} e esparsidade {esparsidade * 100}%")
 
-        matriz_um, matriz_dois, matriz_tradicional = ComparadorEstruturas.gera_matrizes(dimensao, esparsidade)
-
         operacoes = [
-                ("Acessar elemento", 1, lambda m: m.acessar_elemento(0, 0)),
-                ("Inserir/atualizar elemento", 1, lambda m: m.inserir_atualizar(0, 0, 42)),
-                ("Mostrar transposta", 1, lambda m: m.mostrar_t()),
-                ("Multiplicação por escalar", 1, lambda m: m.multiplicar_escalar(2)),
-                ("Soma de matrizes", 2, lambda m1, m2: m1.somar(m2)),
-                ("Multiplicação de matrizes", 2, lambda m1, m2: m1.multiplicar_matriz(m2)),
-            ]
-
+            ("Acessar elemento", lambda m: m.acessar_elemento(0, 0)),
+            ("Inserir/atualizar elemento", lambda m: m.inserir_atualizar(0, 0, 42)),
+            ("Mostrar transposta", lambda m: m.mostrar_t()),
+            ("Multiplicação por escalar", lambda m: m.multiplicar_escalar(2)),
+            ("Soma de matrizes", lambda m: m.somar(m)),
+            ("Multiplicação de matrizes", lambda m: m.multiplicar_matriz(m)),
+        ]
 
         resultados = {}
 
-        for nome, num_argumentos, operacao in operacoes:
+        for nome, operacao in operacoes:
             resultados[nome] = {}
             print(f"\nOperação: {nome}")
 
-            for estrutura, nome_estrutura in zip(
-                [matriz_um, matriz_dois, matriz_tradicional],
-                ["EstruturaUm", "EstruturaDois", "MatrizTradicional"]
-            ):
-                
-                if nome_estrutura == "MatrizTradicional" and dimensao > 10**3:  # a Matriz tradicional ficará muito grande. Abaixo disso já conseguimos fazer uma análise
-                    resultados[nome][nome_estrutura] = (0.0, 0.0)
-                    continue
+            # Estrutura 1
+            matriz_um = Estrutura_um(dimensao, dimensao)
+            elementos_nao_nulos = int(dimensao * dimensao * esparsidade)
+            for _ in range(elementos_nao_nulos):
+                i, j = random.randint(0, dimensao - 1), random.randint(0, dimensao - 1)
+                valor = random.randint(1, 100)
+                matriz_um.inserir_atualizar(i, j, valor)
 
-                if (num_argumentos == 1):
-                    tempo, memoria, _ = ComparadorEstruturas.medir_tempo_memoria(
-                        operacao, estrutura
-                    )
-                else:
-                    tempo, memoria, _ = ComparadorEstruturas.medir_tempo_memoria(
-                        operacao, estrutura, estrutura
-                    )
+            tempo, memoria, _ = ComparadorEstruturas.medir_tempo_memoria(operacao, matriz_um)
+            print(f"EstruturaUm: {tempo:.6f}s, {memoria} bytes")
+            resultados[nome]["EstruturaUm"] = (tempo, memoria)
+            del matriz_um
+            gc.collect()
 
-                print(f"{nome_estrutura}: {tempo:.6f}s, {memoria} bytes")
-                resultados[nome][nome_estrutura] = (tempo, memoria)
+            # Estrutura 2
+            matriz_dois = EstruturaDois(dimensao, dimensao)
+            for _ in range(elementos_nao_nulos):
+                i, j = random.randint(0, dimensao - 1), random.randint(0, dimensao - 1)
+                valor = random.randint(1, 100)
+                matriz_dois.inserir_atualizar(i, j, valor)
+
+            tempo, memoria, _ = ComparadorEstruturas.medir_tempo_memoria(operacao, matriz_dois)
+            print(f"EstruturaDois: {tempo:.6f}s, {memoria} bytes")
+            resultados[nome]["EstruturaDois"] = (tempo, memoria)
+            del matriz_dois
+            gc.collect()
+
+            # Matriz Tradicional (até 10**3 para evitar matrizes densas de dimensão alta)
+            if (dimensao < 10**3):
+                matriz_tradicional = MatrizTradicional(dimensao, dimensao)
+                for _ in range(elementos_nao_nulos):
+                    i, j = random.randint(0, dimensao - 1), random.randint(0, dimensao - 1)
+                    valor = random.randint(1, 100)
+                    matriz_tradicional.inserir_atualizar(i, j, valor)
+
+                tempo, memoria, _ = ComparadorEstruturas.medir_tempo_memoria(operacao, matriz_tradicional)
+                print(f"MatrizTradicional: {tempo:.6f}s, {memoria} bytes")
+                resultados[nome]["MatrizTradicional"] = (tempo, memoria)
+                del matriz_tradicional 
+                gc.collect()
+            else:
+                resultados[nome]["MatrizTradicional"] = (0.0, 0.0)
 
         ComparadorEstruturas.salva_csv("resultados_completos.csv", resultados, dimensao, esparsidade)
 
-        del matriz_um, matriz_dois, matriz_tradicional 
-        del resultados 
+        del resultados
         gc.collect()
 
 def main():
