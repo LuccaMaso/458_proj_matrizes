@@ -45,9 +45,11 @@ class ComparadorEstruturas:
 
     @staticmethod
     def gera_matrizes(dimensao, esparsidade):
+        gerar_tradicional = dimensao <= 10**3
+
         matriz_um = Estrutura_um(dimensao, dimensao)
         matriz_dois = EstruturaDois(dimensao, dimensao)
-        matriz_tradicional = MatrizTradicional(dimensao, dimensao)
+        matriz_tradicional = MatrizTradicional(dimensao, dimensao) if gerar_tradicional else None
 
         elementos_nao_nulos = int(dimensao * dimensao * esparsidade)
         for _ in range(elementos_nao_nulos):
@@ -55,7 +57,8 @@ class ComparadorEstruturas:
             valor = random.randint(1, 100)
             matriz_um.inserir_atualizar(i, j, valor)
             matriz_dois.inserir_atualizar(i, j, valor)
-            matriz_tradicional.inserir_atualizar(i, j, valor)
+            if gerar_tradicional:
+                matriz_tradicional.inserir_atualizar(i, j, valor)
 
         return matriz_um, matriz_dois, matriz_tradicional
 
@@ -85,6 +88,11 @@ class ComparadorEstruturas:
                 [matriz_um, matriz_dois, matriz_tradicional],
                 ["EstruturaUm", "EstruturaDois", "MatrizTradicional"]
             ):
+                
+                if nome_estrutura == "MatrizTradicional" and dimensao > 10**3:  # a Matriz tradicional ficará muito grande. Abaixo disso já conseguimos fazer uma análise
+                    resultados[nome][nome_estrutura] = (0.0, 0.0)
+                    continue
+
                 if (num_argumentos == 1):
                     tempo, memoria, _ = ComparadorEstruturas.medir_tempo_memoria(
                         operacao, estrutura

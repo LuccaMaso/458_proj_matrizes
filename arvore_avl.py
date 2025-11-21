@@ -1,6 +1,8 @@
 from typing import Optional, List, Tuple, Any
 
 class No:
+    __slots__ = 'chave', 'valor', 'altura', 'esquerda', 'direita'
+    
     def __init__(self, chave: int, valor: Any):
         self.chave: int = chave
         self.valor: Any = valor
