@@ -69,9 +69,9 @@ class ComparadorEstruturas:
         operacoes = [
             ("Acessar elemento", lambda m: m.acessar_elemento(0, 0)),
             ("Inserir/atualizar elemento", lambda m: m.inserir_atualizar(0, 0, 42)),
-            ("Mostrar transposta", lambda m: m.mostrar_t()),
+            ("Retornar transposta", lambda m: m.retornar_transposta()),
             ("Multiplicação por escalar", lambda m: m.multiplicar_escalar(2)),
-            ("Soma de matrizes", lambda m: m.somar(m)),
+            ("Soma de matrizes", lambda m: m.somar_matrizes(m)),
             ("Multiplicação de matrizes", lambda m: m.multiplicar_matriz(m)),
         ]
 
@@ -129,7 +129,7 @@ class ComparadorEstruturas:
         del resultados
         gc.collect()
 
-def main():
+def compara_estruturas():
     dimensoes = [10**i for i in range(2, 7)]
 
     for i, dimensao in enumerate(dimensoes, start=2):
@@ -144,6 +144,3 @@ def main():
 
         for esparsidade in esparsidades:
             ComparadorEstruturas.comparar_operacoes(dimensao, esparsidade)
-
-if __name__ == "__main__":
-    main()

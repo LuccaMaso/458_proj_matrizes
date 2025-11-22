@@ -10,7 +10,7 @@ class MatrizTradicional:
     def inserir_atualizar(self, i: int, j: int, valor: int):
         self.matriz[i][j] = valor
 
-    def somar(self, matriz_b):
+    def somar_matrizes(self, matriz_b):
         if ((self.x_dim != matriz_b.x_dim) or (self.y_dim != matriz_b.y_dim)):
             return False
 
@@ -37,10 +37,10 @@ class MatrizTradicional:
                 for k in range(self.y_dim):
                     soma += self.matriz[i][k] * segunda_matriz.acessar_elemento(k, j)
                 resultado.inserir_atualizar(i, j, soma)
-                
+
         return resultado
 
-    def mostrar_t(self):
+    def retornar_transposta(self):
 
         transposta = MatrizTradicional(self.y_dim, self.x_dim)
         for i in range(self.x_dim):
