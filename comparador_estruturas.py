@@ -129,7 +129,7 @@ class ComparadorEstruturas:
         del resultados
         gc.collect()
 
-def main():
+def compara_estruturas():
     dimensoes = [10**i for i in range(2, 7)]
 
     for i, dimensao in enumerate(dimensoes, start=2):
@@ -144,6 +144,3 @@ def main():
 
         for esparsidade in esparsidades:
             ComparadorEstruturas.comparar_operacoes(dimensao, esparsidade)
-
-if __name__ == "__main__":
-    main()

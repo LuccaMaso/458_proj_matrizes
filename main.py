@@ -1,3 +1,4 @@
-from comparador_estruturas import main
+from comparador_estruturas import compara_estruturas
 
-main()
+if __name__ == "__main__":
+    compara_estruturas()
