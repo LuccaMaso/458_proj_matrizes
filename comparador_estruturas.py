@@ -69,9 +69,9 @@ class ComparadorEstruturas:
         operacoes = [
             ("Acessar elemento", lambda m: m.acessar_elemento(0, 0)),
             ("Inserir/atualizar elemento", lambda m: m.inserir_atualizar(0, 0, 42)),
-            ("Mostrar transposta", lambda m: m.mostrar_t()),
+            ("Retornar transposta", lambda m: m.retornar_transposta()),
             ("Multiplicação por escalar", lambda m: m.multiplicar_escalar(2)),
-            ("Soma de matrizes", lambda m: m.somar(m)),
+            ("Soma de matrizes", lambda m: m.somar_matrizes(m)),
             ("Multiplicação de matrizes", lambda m: m.multiplicar_matriz(m)),
         ]
 

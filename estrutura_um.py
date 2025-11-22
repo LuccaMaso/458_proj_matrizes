@@ -43,7 +43,7 @@ class Estrutura_um:
         self.linha[i][j] += valor
         self.linha_t[j][i] += valor
 
-    def somar(self, matriz_b):
+    def somar_matrizes(self, matriz_b):
         if self.x_dim != matriz_b.x_dim or self.y_dim != matriz_b.y_dim:
             return False
         

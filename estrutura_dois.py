@@ -44,7 +44,7 @@ class EstruturaDois:
 
         return True
 
-    def somar(self, segunda_matriz: 'EstruturaDois'):
+    def somar_matrizes(self, segunda_matriz: 'EstruturaDois'):
         if ((self.x_dim != segunda_matriz.x_dim) or (self.y_dim != segunda_matriz.y_dim)):
             return False
 
@@ -118,7 +118,7 @@ class EstruturaDois:
         return matriz_resultante
 
 
-    def mostrar_t(self):
+    def retornar_transposta(self):
         t = EstruturaDois(self.y_dim, self.x_dim)
         t.linhas = self.colunas
         t.colunas = self.linhas
